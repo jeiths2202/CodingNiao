@@ -56,7 +56,7 @@ const ChuruEvent = ({ onClaim, onClose }) => {
               muted
               playsInline
             >
-              <source src="/images/video-1759317142958.mp4" type="video/mp4" />
+              <source src={`${import.meta.env.BASE_URL}images/video-1759317142958.mp4`} type="video/mp4" />
               희짱이 츄르 먹는 영상
             </video>
           </div>

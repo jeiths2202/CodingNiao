@@ -38,7 +38,7 @@ const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization, onO
             <div className="card-body items-center text-center">
               <div className="relative mb-2 flex items-center justify-center w-full h-48">
                 <img
-                  src="/images/heezzang.png"
+                  src={`${import.meta.env.BASE_URL}images/heezzang.png`}
                   alt="희짱"
                   className="max-w-full max-h-full object-contain"
                   style={{ objectPosition: 'center' }}
