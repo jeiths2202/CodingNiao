@@ -30,13 +30,20 @@ const HeezzangCustomizer = ({
     }
   };
 
-  const getCurrentIcon = () => {
-    const head = currentCustomization.currentHead || '😺';
-    const accessory = currentCustomization.currentAccessory || '';
+  const getCurrentPreview = () => {
     return (
-      <div className="text-9xl">
-        {head}
-        {accessory && <span className="ml-2">{accessory}</span>}
+      <div className="relative">
+        <img
+          src="/images/heezzang.png"
+          alt="희짱"
+          className="w-64 h-64 object-cover rounded-full border-4 border-primary"
+        />
+        {/* 악세서리 오버레이 */}
+        {currentCustomization.currentAccessory && (
+          <div className="absolute top-0 right-4 text-6xl transform -translate-y-2">
+            {currentCustomization.currentAccessory}
+          </div>
+        )}
       </div>
     );
   };
@@ -62,7 +69,7 @@ const HeezzangCustomizer = ({
         <div className="card bg-base-100 shadow-xl mb-8">
           <div className="card-body items-center">
             <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl p-8 mb-4">
-              {getCurrentIcon()}
+              {getCurrentPreview()}
             </div>
             <p className="text-lg font-semibold">나의 희짱</p>
           </div>

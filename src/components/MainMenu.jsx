@@ -28,10 +28,17 @@ const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization }) =
         <div className="flex justify-center mb-8">
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body items-center text-center">
-              <div className="text-8xl mb-2">
-                {heezzangCustomization.currentHead || '😺'}
+              <div className="relative mb-2">
+                <img
+                  src="/images/heezzang.png"
+                  alt="희짱"
+                  className="w-48 h-48 object-cover rounded-full border-4 border-primary"
+                />
+                {/* 악세서리 오버레이 */}
                 {heezzangCustomization.currentAccessory && (
-                  <span className="ml-2">{heezzangCustomization.currentAccessory}</span>
+                  <div className="absolute -top-2 -right-2 text-4xl">
+                    {heezzangCustomization.currentAccessory}
+                  </div>
                 )}
               </div>
               <p className="text-sm text-gray-500">희짱이가 기다리고 있어요!</p>
