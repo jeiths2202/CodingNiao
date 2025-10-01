@@ -25,7 +25,7 @@ const BlockPalette = ({ availableBlocks, blocksData }) => {
           ))}
         </div>
         <div className="text-sm text-gray-500 mt-2">
-          💡 블록을 드래그해서 워크스페이스에 놓으세요
+          💡 블록을 클릭하거나 드래그해서 워크스페이스에 놓으세요
         </div>
       </div>
     </div>
