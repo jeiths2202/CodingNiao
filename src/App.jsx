@@ -7,15 +7,12 @@ import BlockCodingGame from './components/BlockCodingGame';
 import HeezzangCustomizer from './components/HeezzangCustomizer';
 import HeezzangAdventure from './components/HeezzangAdventure';
 import ChuruEvent from './components/ChuruEvent';
-import ModelSelector from './components/ModelSelector';
 import DungeonPuzzle from './components/DungeonPuzzle';
 import ActionPuzzle from './components/ActionPuzzle';
 import FishingGame from './components/FishingGame';
 import RacingGame from './components/RacingGame';
 import AIEngineerPath from './components/AIEngineerPath';
-
-// Engines
-import LLMEngine from './engine/LLMEngine';
+import AIChatbot from './components/AIChatbot';
 
 // Data
 import contentsData from './data/contents.json';
@@ -23,9 +20,6 @@ import heezzangData from './data/heezzangCustomization.json';
 
 function App() {
   const [currentContent, setCurrentContent] = useState('main-menu');
-  const [isAIReady, setIsAIReady] = useState(false);
-  const [aiProgress, setAiProgress] = useState({ status: 'idle', message: '', progress: 0 });
-  const [showModelSelector, setShowModelSelector] = useState(false);
   const [showChuruEvent, setShowChuruEvent] = useState(false);
 
   // 게임 상태
@@ -39,8 +33,6 @@ function App() {
     currentBackground: '🏡',
     ownedItems: heezzangData
   });
-
-  const llmEngineRef = useRef(null);
 
   useEffect(() => {
     // 저장된 데이터 로드
@@ -58,22 +50,6 @@ function App() {
         })));
       }
     }
-
-    // LLM 초기화
-    llmEngineRef.current = new LLMEngine((progress) => {
-      setAiProgress(progress);
-      if (progress.status === 'ready') {
-        setIsAIReady(true);
-      }
-    });
-
-    checkCachedModels();
-
-    return () => {
-      if (llmEngineRef.current) {
-        llmEngineRef.current.unload();
-      }
-    };
   }, []);
 
   // 데이터 저장
@@ -86,30 +62,6 @@ function App() {
     localStorage.setItem('codingNiaoData', JSON.stringify(dataToSave));
   }, [coins, heezzangCustomization, contents]);
 
-  const checkCachedModels = async () => {
-    if (!llmEngineRef.current) return;
-
-    const recommendedModel = 'Gemma-3-270M-Instruct-q4f16_1-MLC';
-    const hasCache = await llmEngineRef.current.checkModelInCache(recommendedModel);
-
-    if (hasCache) {
-      await llmEngineRef.current.initialize(recommendedModel);
-    } else {
-      setShowModelSelector(true);
-    }
-  };
-
-  const handleModelSelect = async (modelId) => {
-    if (modelId === null) {
-      setShowModelSelector(false);
-      return;
-    }
-
-    setShowModelSelector(false);
-    if (llmEngineRef.current) {
-      await llmEngineRef.current.initialize(modelId);
-    }
-  };
 
   const handleEarnCoins = (amount) => {
     setCoins(prev => prev + amount);
@@ -170,8 +122,6 @@ function App() {
       case 'block-coding':
         return (
           <BlockCodingGame
-            llmEngine={llmEngineRef.current}
-            isAIReady={isAIReady}
             onEarnCoins={handleEarnCoins}
             onBack={() => setCurrentContent('main-menu')}
           />
@@ -237,6 +187,14 @@ function App() {
           />
         );
 
+      case 'ai-chatbot':
+        return (
+          <AIChatbot
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
       case 'room-decoration':
       case 'farm-game':
         return (
@@ -260,12 +218,6 @@ function App() {
 
   return (
     <>
-      {showModelSelector && (
-        <ModelSelector
-          onSelectModel={handleModelSelect}
-          loadingProgress={aiProgress.status === 'loading' ? aiProgress : null}
-        />
-      )}
       {showChuruEvent && (
         <ChuruEvent
           onClaim={handleEarnCoins}

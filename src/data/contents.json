@@ -88,5 +88,14 @@
     "color": "primary",
     "difficulty": "전체",
     "unlocked": true
+  },
+  {
+    "id": "ai-chatbot",
+    "title": "AI 챗봇",
+    "icon": "💬",
+    "description": "AI와 대화하며 코딩과 컴퓨터에 대해 배워요",
+    "color": "success",
+    "difficulty": "전체",
+    "unlocked": true
   }
 ]

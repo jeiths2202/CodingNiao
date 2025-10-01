@@ -5,7 +5,6 @@ const ControlPanel = ({
   onClear,
   onHint,
   isExecuting,
-  isAIReady,
   xp,
   badges
 }) => {
@@ -34,7 +33,7 @@ const ControlPanel = ({
           <button
             className="btn btn-info flex-1"
             onClick={onHint}
-            disabled={!isAIReady || isExecuting}
+            disabled={isExecuting}
           >
             💡 힌트
           </button>

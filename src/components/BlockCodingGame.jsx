@@ -19,7 +19,7 @@ import blocksData from '../data/blocks.json';
 // Utils
 import { getFallbackHint } from '../utils/fallbackHints';
 
-function BlockCodingGame({ llmEngine, isAIReady, onEarnCoins, onBack }) {
+function BlockCodingGame({ onEarnCoins, onBack }) {
   const [currentLevel, setCurrentLevel] = useState(1);
   const [isExecuting, setIsExecuting] = useState(false);
   const [xp, setXp] = useState(0);
@@ -48,8 +48,8 @@ function BlockCodingGame({ llmEngine, isAIReady, onEarnCoins, onBack }) {
   }, []);
 
   useEffect(() => {
-    if (stateManagerRef.current && llmEngine) {
-      const handler = new DragDropHandler(llmEngine, stateManagerRef.current);
+    if (stateManagerRef.current) {
+      const handler = new DragDropHandler(null, stateManagerRef.current);
       handler.setupDragHandlers();
       dragDropHandlerRef.current = handler;
 
@@ -59,7 +59,7 @@ function BlockCodingGame({ llmEngine, isAIReady, onEarnCoins, onBack }) {
         }
       };
     }
-  }, [currentLevel, llmEngine]);
+  }, [currentLevel]);
 
   const handleExecute = async () => {
     if (!executionEngineRef.current || isExecuting) return;
@@ -131,29 +131,8 @@ function BlockCodingGame({ llmEngine, isAIReady, onEarnCoins, onBack }) {
   };
 
   const handleHint = async () => {
-    if (!isAIReady) {
-      const hint = getFallbackHint(level.id, attemptCount);
-      showModal('💡 힌트', hint);
-      return;
-    }
-
-    try {
-      const currentState = stateManagerRef.current.getWorkspaceState();
-      showToast('AI가 힌트를 생성 중입니다...', 'info');
-
-      const hintPrompt = `레벨 ${level.id}: ${level.title}
-목표: (${level.goal.x}, ${level.goal.y})
-현재 블록: ${currentState.blocks.filter(b => b).map(b => b.blockType).join(', ')}
-시도: ${attemptCount}번
-
-초등학생이 이해할 수 있는 힌트를 2-3문장으로 주세요:`;
-
-      const hint = await llmEngine.chat(hintPrompt, '친절한 코딩 튜터입니다.', 100);
-      showModal('💡 AI 힌트', hint);
-    } catch (error) {
-      const hint = getFallbackHint(level.id, attemptCount);
-      showModal('💡 힌트', hint);
-    }
+    const hint = getFallbackHint(level.id, attemptCount);
+    showModal('💡 힌트', hint);
   };
 
   const handleSelectLevel = (levelId) => {
@@ -245,7 +224,6 @@ function BlockCodingGame({ llmEngine, isAIReady, onEarnCoins, onBack }) {
               onClear={handleClear}
               onHint={handleHint}
               isExecuting={isExecuting}
-              isAIReady={isAIReady}
               xp={xp}
               badges={badges}
             />
