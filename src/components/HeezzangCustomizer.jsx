@@ -32,11 +32,12 @@ const HeezzangCustomizer = ({
 
   const getCurrentPreview = () => {
     return (
-      <div className="relative">
+      <div className="relative flex items-center justify-center">
         <img
           src="/images/heezzang.png"
           alt="희짱"
-          className="w-64 h-64 object-cover rounded-full border-4 border-primary"
+          className="w-64 h-64 object-contain rounded-full border-4 border-primary"
+          style={{ objectPosition: 'center' }}
         />
         {/* 악세서리 오버레이 */}
         {currentCustomization.currentAccessory && (

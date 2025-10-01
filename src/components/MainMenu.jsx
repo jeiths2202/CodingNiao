@@ -28,11 +28,12 @@ const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization }) =
         <div className="flex justify-center mb-8">
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body items-center text-center">
-              <div className="relative mb-2">
+              <div className="relative mb-2 flex items-center justify-center">
                 <img
                   src="/images/heezzang.png"
                   alt="희짱"
-                  className="w-48 h-48 object-cover rounded-full border-4 border-primary"
+                  className="w-48 h-48 object-contain rounded-full border-4 border-primary"
+                  style={{ objectPosition: 'center' }}
                 />
                 {/* 악세서리 오버레이 */}
                 {heezzangCustomization.currentAccessory && (

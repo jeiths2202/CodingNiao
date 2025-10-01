@@ -29,3 +29,5 @@ dist-ssr
 # Old files
 src/AppOld.jsx
 src/AppNew.jsx
+
+.vercel

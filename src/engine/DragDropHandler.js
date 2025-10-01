@@ -3,11 +3,13 @@ class DragDropHandler {
     this.llm = llmEngine;
     this.state = stateManager;
     this.draggedBlockData = null;
+    this.selectedBlockData = null; // 클릭으로 선택된 블록
   }
 
   setupDragHandlers() {
     // 팔레트 블록에 드래그 시작 이벤트
     document.querySelectorAll('.block-template').forEach(block => {
+      // 드래그 앤 드롭
       block.addEventListener('dragstart', (e) => {
         this.draggedBlockData = {
           type: block.dataset.blockType,
@@ -23,10 +25,34 @@ class DragDropHandler {
       block.addEventListener('dragend', (e) => {
         block.classList.remove('opacity-50');
       });
+
+      // 모바일/클릭 지원
+      block.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // 이전 선택 해제
+        document.querySelectorAll('.block-template').forEach(b => {
+          b.classList.remove('ring-4', 'ring-primary');
+        });
+
+        // 현재 블록 선택
+        block.classList.add('ring-4', 'ring-primary');
+
+        this.selectedBlockData = {
+          type: block.dataset.blockType,
+          action: block.dataset.action,
+          direction: block.dataset.direction,
+          icon: block.dataset.icon,
+          label: block.dataset.label
+        };
+
+        this.showFeedback('블록을 선택했습니다. 워크스페이스 슬롯을 클릭하세요.', 'info');
+      });
     });
 
     // 슬롯에 드롭 이벤트
     document.querySelectorAll('[data-slot-index]').forEach(slot => {
+      // 드래그 앤 드롭
       slot.addEventListener('dragover', (e) => {
         e.preventDefault();
         slot.classList.add('bg-primary', 'bg-opacity-20');
@@ -42,6 +68,21 @@ class DragDropHandler {
 
         if (this.draggedBlockData) {
           await this.handleDrop(slot.id, this.draggedBlockData);
+        }
+      });
+
+      // 모바일/클릭 지원
+      slot.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        if (this.selectedBlockData) {
+          await this.handleDrop(slot.id, this.selectedBlockData);
+
+          // 선택 해제
+          document.querySelectorAll('.block-template').forEach(b => {
+            b.classList.remove('ring-4', 'ring-primary');
+          });
+          this.selectedBlockData = null;
         }
       });
     });
