@@ -57,11 +57,11 @@ const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization, onO
           {/* 희짱 캐릭터 */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body items-center text-center">
-              <div className="relative mb-2 flex items-center justify-center w-full h-48">
+              <div className="relative mb-2 w-full h-48 overflow-hidden rounded-lg">
                 <img
                   src={`${import.meta.env.BASE_URL}images/heezzang.png`}
                   alt="희짱"
-                  className="max-w-full max-h-full object-contain"
+                  className="w-full h-full object-cover"
                   style={{ objectPosition: 'center' }}
                 />
                 {/* 악세서리 오버레이 */}
