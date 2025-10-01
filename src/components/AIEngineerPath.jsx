@@ -218,8 +218,10 @@ const AIEngineerPath = ({ onBack, onEarnCoins }) => {
               key={s.id}
               className={`tab tab-lg ${currentStage === s.id ? 'tab-active' : ''}`}
               onClick={() => setCurrentStage(s.id)}
+              title={s.title}
             >
-              {s.icon} {s.title}
+              <span className="text-2xl">{s.icon}</span>
+              <span className="hidden md:inline ml-2">{s.title}</span>
             </a>
           ))}
         </div>
