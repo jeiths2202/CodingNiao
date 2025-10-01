@@ -19,27 +19,90 @@ class LLMEngine {
 
   async initialize(modelId = "Llama-3.2-3B-Instruct-q4f32_1-MLC") {
     try {
-      this.onProgress({ status: 'loading', message: 'AI 모델 로딩 중...', progress: 0 });
+      this.onProgress({
+        status: 'loading',
+        message: 'AI 모델 초기화 중...',
+        progress: 0,
+        detail: '모델 로딩 준비 중...'
+      });
 
       this.engine = await CreateMLCEngine(modelId, {
         initProgressCallback: (progress) => {
+          console.log('WebLLM Progress:', progress); // 디버깅용
+
           this.onProgress({
             status: 'loading',
-            message: `AI 모델 로딩: ${progress.text}`,
-            progress: progress.progress || 0
+            message: `AI 모델 로딩: ${Math.round((progress.progress || 0) * 100)}%`,
+            progress: progress.progress || 0,
+            detail: progress.text || '로딩 중...'
           });
         }
       });
 
       this.isReady = true;
-      this.onProgress({ status: 'ready', message: 'AI 준비 완료!', progress: 100 });
+      this.currentModelId = modelId;
+      this.onProgress({
+        status: 'ready',
+        message: 'AI 준비 완료!',
+        progress: 1,
+        detail: '모델이 성공적으로 로드되었습니다.'
+      });
 
       return true;
     } catch (error) {
       console.error('LLM 초기화 실패:', error);
-      this.onProgress({ status: 'error', message: 'AI 로딩 실패', progress: 0 });
+      this.onProgress({
+        status: 'error',
+        message: 'AI 로딩 실패',
+        progress: 0,
+        detail: error.message || '알 수 없는 오류'
+      });
       return false;
     }
+  }
+
+  async deleteModel(modelId) {
+    try {
+      // IndexedDB에서 모델 캐시 삭제
+      const databases = await indexedDB.databases();
+
+      for (const db of databases) {
+        if (db.name && db.name.includes('webllm')) {
+          await new Promise((resolve, reject) => {
+            const deleteRequest = indexedDB.deleteDatabase(db.name);
+            deleteRequest.onsuccess = () => resolve();
+            deleteRequest.onerror = () => reject(deleteRequest.error);
+          });
+        }
+      }
+
+      // Cache API에서도 삭제
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        for (const cacheName of cacheNames) {
+          if (cacheName.includes('webllm') || cacheName.includes('mlc')) {
+            await caches.delete(cacheName);
+          }
+        }
+      }
+
+      // 엔진 언로드
+      if (this.engine) {
+        await this.engine.unload();
+      }
+
+      this.isReady = false;
+      this.currentModelId = null;
+
+      return true;
+    } catch (error) {
+      console.error('모델 삭제 실패:', error);
+      throw error;
+    }
+  }
+
+  getCurrentModelId() {
+    return this.currentModelId;
   }
 
   async chat(userMessage, systemPrompt = null, maxTokens = 150) {

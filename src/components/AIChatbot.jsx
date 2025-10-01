@@ -10,6 +10,8 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [selectedModel, setSelectedModel] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const llmEngineRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -150,6 +152,27 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
     addSystemMessage('대화 기록이 초기화되었습니다.');
   };
 
+  const handleDeleteModel = async () => {
+    setShowDeleteConfirm(false);
+    setIsDeleting(true);
+
+    try {
+      if (llmEngineRef.current) {
+        await llmEngineRef.current.deleteModel();
+        setIsAIReady(false);
+        setSelectedModel(null);
+        setMessages([]);
+        addSystemMessage('✅ AI 모델이 삭제되었습니다. 브라우저 캐시에서 모델 데이터가 제거되었습니다.');
+        setAiProgress({ status: 'idle', message: '', progress: 0 });
+      }
+    } catch (error) {
+      console.error('모델 삭제 오류:', error);
+      addSystemMessage('❌ 모델 삭제 중 오류가 발생했습니다: ' + error.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const suggestedQuestions = [
     "코딩이 뭐야?",
     "컴퓨터는 어떻게 동작해?",
@@ -176,8 +199,17 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
               onClick={handleClearChat}
               disabled={messages.length === 0}
             >
-              🗑️ 초기화
+              🗑️ 대화 초기화
             </button>
+            {(isAIReady || selectedModel) && (
+              <button
+                className="btn btn-sm btn-error"
+                onClick={() => setShowDeleteConfirm(true)}
+                disabled={isDeleting}
+              >
+                {isDeleting ? '삭제 중...' : '🗑️ 모델 삭제'}
+              </button>
+            )}
           </div>
         </div>
 
@@ -219,16 +251,34 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
 
             {/* 로딩 프로그레스 */}
             {aiProgress.status === 'loading' && (
-              <div className="mt-2">
+              <div className="mt-3">
                 <div className="flex justify-between text-sm mb-1">
-                  <span>{aiProgress.message}</span>
-                  <span>{Math.round(aiProgress.progress * 100)}%</span>
+                  <span className="font-semibold">{aiProgress.message}</span>
+                  <span className="font-bold text-primary">{Math.round(aiProgress.progress * 100)}%</span>
                 </div>
                 <progress
-                  className="progress progress-primary w-full"
+                  className="progress progress-primary w-full h-3"
                   value={aiProgress.progress * 100}
                   max="100"
                 ></progress>
+                {aiProgress.detail && (
+                  <div className="mt-2 p-2 bg-base-200 rounded text-xs">
+                    <div className="flex items-start gap-2">
+                      <span className="loading loading-spinner loading-xs"></span>
+                      <span className="text-gray-600">{aiProgress.detail}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* 에러 표시 */}
+            {aiProgress.status === 'error' && (
+              <div className="alert alert-error mt-3">
+                <span>❌ {aiProgress.message}</span>
+                {aiProgress.detail && (
+                  <div className="text-xs mt-1">{aiProgress.detail}</div>
+                )}
               </div>
             )}
           </div>
@@ -343,6 +393,44 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
           onSelectModel={handleModelSelect}
           loadingProgress={aiProgress.status === 'loading' ? aiProgress : null}
         />
+      )}
+
+      {/* 모델 삭제 확인 모달 */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="card bg-base-100 shadow-xl max-w-md">
+            <div className="card-body">
+              <h3 className="card-title text-xl">⚠️ 모델 삭제 확인</h3>
+              <p className="py-4">
+                다운로드한 AI 모델을 브라우저 캐시에서 삭제하시겠습니까?
+              </p>
+              <div className="bg-warning bg-opacity-20 p-3 rounded-lg mb-2">
+                <p className="text-sm">
+                  ⚠️ <strong>주의:</strong> 모델을 삭제하면 다시 사용하려면 재다운로드가 필요합니다.
+                  {selectedModel && (
+                    <span className="block mt-1">
+                      모델 크기: 약 270MB
+                    </span>
+                  )}
+                </p>
+              </div>
+              <div className="card-actions justify-end gap-2">
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  취소
+                </button>
+                <button
+                  className="btn btn-error"
+                  onClick={handleDeleteModel}
+                >
+                  삭제
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
