@@ -1,26 +1,17 @@
 import React, { useState } from 'react';
 
 const ModelSelector = ({ onSelectModel, loadingProgress }) => {
-  const [selectedModel, setSelectedModel] = useState('Gemma-3-270M-Instruct-q4f16_1-MLC');
+  const [selectedModel, setSelectedModel] = useState('Llama-3.2-1B-Instruct-q4f16_1-MLC');
 
   const models = [
     {
-      id: 'Gemma-3-270M-Instruct-q4f16_1-MLC',
-      name: 'Gemma 3 270M (추천)',
-      size: '~270MB',
-      speed: '초고속',
-      quality: '우수',
-      recommended: true,
-      description: '초경량 Google 모델 - 가장 빠른 로딩'
-    },
-    {
       id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',
-      name: 'Llama 3.2 1B',
+      name: 'Llama 3.2 1B (추천)',
       size: '~0.8GB',
       speed: '매우 빠름',
       quality: '우수',
-      recommended: false,
-      description: '가벼운 Meta 모델'
+      recommended: true,
+      description: '가벼운 Meta 모델 - 빠른 로딩과 우수한 품질'
     },
     {
       id: 'gemma-2-2b-it-q4f16_1-MLC',
@@ -39,15 +30,6 @@ const ModelSelector = ({ onSelectModel, loadingProgress }) => {
       quality: '우수',
       recommended: false,
       description: 'Microsoft의 경량 모델'
-    },
-    {
-      id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',
-      name: 'Llama 3.2 1B',
-      size: '~0.8GB',
-      speed: '매우 빠름',
-      quality: '보통',
-      recommended: false,
-      description: '가장 가벼운 Meta 모델'
     },
     {
       id: 'Llama-3.2-3B-Instruct-q4f32_1-MLC',

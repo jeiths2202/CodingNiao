@@ -43,7 +43,7 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
   const checkCachedModels = async () => {
     if (!llmEngineRef.current) return;
 
-    const recommendedModel = 'Gemma-3-270M-Instruct-q4f16_1-MLC';
+    const recommendedModel = 'Llama-3.2-1B-Instruct-q4f16_1-MLC';
     const hasCache = await llmEngineRef.current.checkModelInCache(recommendedModel);
 
     if (hasCache) {
@@ -72,7 +72,7 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
   const handleStartAI = async () => {
     if (isAIReady) return;
 
-    const recommendedModel = 'Gemma-3-270M-Instruct-q4f16_1-MLC';
+    const recommendedModel = 'Llama-3.2-1B-Instruct-q4f16_1-MLC';
     if (llmEngineRef.current) {
       addSystemMessage(`AI를 시작합니다...`);
       await llmEngineRef.current.initialize(selectedModel || recommendedModel);
@@ -409,7 +409,7 @@ const AIChatbot = ({ onBack, onEarnCoins }) => {
                   ⚠️ <strong>주의:</strong> 모델을 삭제하면 다시 사용하려면 재다운로드가 필요합니다.
                   {selectedModel && (
                     <span className="block mt-1">
-                      모델 크기: 약 270MB
+                      모델 크기: 약 0.8GB
                     </span>
                   )}
                 </p>
