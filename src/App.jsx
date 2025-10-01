@@ -12,6 +12,7 @@ import DungeonPuzzle from './components/DungeonPuzzle';
 import ActionPuzzle from './components/ActionPuzzle';
 import FishingGame from './components/FishingGame';
 import RacingGame from './components/RacingGame';
+import AIEngineerPath from './components/AIEngineerPath';
 
 // Engines
 import LLMEngine from './engine/LLMEngine';
@@ -223,6 +224,14 @@ function App() {
       case 'racing-game':
         return (
           <RacingGame
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
+      case 'ai-engineer':
+        return (
+          <AIEngineerPath
             onBack={() => setCurrentContent('main-menu')}
             onEarnCoins={handleEarnCoins}
           />

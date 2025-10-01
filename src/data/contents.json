@@ -79,5 +79,14 @@
     "color": "warning",
     "difficulty": "중급",
     "unlocked": false
+  },
+  {
+    "id": "ai-engineer",
+    "title": "나도 AI 엔지니어",
+    "icon": "🤖",
+    "description": "컴퓨터 기초부터 AI까지 체계적으로 배워요",
+    "color": "primary",
+    "difficulty": "전체",
+    "unlocked": true
   }
 ]
