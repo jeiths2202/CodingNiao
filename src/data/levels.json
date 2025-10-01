@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "title": "첫 걸음",
+    "description": "앞으로 이동해서 목표에 도달하세요",
+    "category": "sequence",
+    "difficulty": 1,
+    "gridSize": 5,
+    "start": { "x": 0, "y": 0, "direction": "right" },
+    "goal": { "x": 2, "y": 0 },
+    "obstacles": [],
+    "maxBlocks": 3,
+    "availableBlocks": ["move"],
+    "xpReward": 10,
+    "hint": "앞으로 이동 블록을 사용하세요"
+  },
+  {
+    "id": 2,
+    "title": "방향 전환",
+    "description": "회전해서 위쪽으로 이동하세요",
+    "category": "sequence",
+    "difficulty": 1,
+    "gridSize": 5,
+    "start": { "x": 0, "y": 2, "direction": "right" },
+    "goal": { "x": 0, "y": 0 },
+    "obstacles": [],
+    "maxBlocks": 5,
+    "availableBlocks": ["move", "turn-left", "turn-right"],
+    "xpReward": 15,
+    "hint": "왼쪽으로 회전한 후 앞으로 이동하세요"
+  },
+  {
+    "id": 3,
+    "title": "계단 오르기",
+    "description": "계단처럼 대각선으로 이동하세요",
+    "category": "sequence",
+    "difficulty": 2,
+    "gridSize": 5,
+    "start": { "x": 0, "y": 4, "direction": "right" },
+    "goal": { "x": 2, "y": 2 },
+    "obstacles": [],
+    "maxBlocks": 8,
+    "availableBlocks": ["move", "turn-left", "turn-right"],
+    "xpReward": 20,
+    "hint": "앞으로 가고 위로 가고를 반복하세요"
+  },
+  {
+    "id": 4,
+    "title": "장애물 피하기",
+    "description": "벽을 피해서 목표에 도달하세요",
+    "category": "sequence",
+    "difficulty": 2,
+    "gridSize": 5,
+    "start": { "x": 0, "y": 0, "direction": "right" },
+    "goal": { "x": 4, "y": 0 },
+    "obstacles": [
+      { "x": 2, "y": 0 }
+    ],
+    "maxBlocks": 10,
+    "availableBlocks": ["move", "turn-left", "turn-right"],
+    "xpReward": 25,
+    "hint": "벽을 만나면 돌아가야 해요"
+  },
+  {
+    "id": 5,
+    "title": "사각형 그리기",
+    "description": "출발점으로 돌아오세요",
+    "category": "loop",
+    "difficulty": 3,
+    "gridSize": 5,
+    "start": { "x": 1, "y": 1, "direction": "right" },
+    "goal": { "x": 1, "y": 1 },
+    "obstacles": [],
+    "maxBlocks": 6,
+    "availableBlocks": ["move", "turn-right", "loop"],
+    "xpReward": 30,
+    "hint": "같은 동작을 반복하면 돼요"
+  }
+]

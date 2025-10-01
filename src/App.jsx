@@ -1,0 +1,222 @@
+import { useState, useEffect, useRef } from 'react';
+import './index.css';
+
+// Components
+import MainMenu from './components/MainMenu';
+import BlockCodingGame from './components/BlockCodingGame';
+import HeezzangCustomizer from './components/HeezzangCustomizer';
+import ModelSelector from './components/ModelSelector';
+
+// Engines
+import LLMEngine from './engine/LLMEngine';
+
+// Data
+import contentsData from './data/contents.json';
+import heezzangData from './data/heezzangCustomization.json';
+
+function App() {
+  const [currentContent, setCurrentContent] = useState('main-menu');
+  const [isAIReady, setIsAIReady] = useState(false);
+  const [aiProgress, setAiProgress] = useState({ status: 'idle', message: '', progress: 0 });
+  const [showModelSelector, setShowModelSelector] = useState(false);
+
+  // 게임 상태
+  const [coins, setCoins] = useState(0);
+  const [contents, setContents] = useState(contentsData);
+
+  // 희짱 커스터마이제이션
+  const [heezzangCustomization, setHeezzangCustomization] = useState({
+    currentHead: '😺',
+    currentAccessory: null,
+    currentBackground: '🏡',
+    ownedItems: heezzangData
+  });
+
+  const llmEngineRef = useRef(null);
+
+  useEffect(() => {
+    // 저장된 데이터 로드
+    const savedData = localStorage.getItem('codingNiaoData');
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      setCoins(parsed.coins || 0);
+      setHeezzangCustomization(parsed.heezzangCustomization || heezzangCustomization);
+
+      // 잠금 해제된 콘텐츠 업데이트
+      if (parsed.unlockedContents) {
+        setContents(contents.map(c => ({
+          ...c,
+          unlocked: parsed.unlockedContents.includes(c.id) || c.unlocked
+        })));
+      }
+    }
+
+    // LLM 초기화
+    llmEngineRef.current = new LLMEngine((progress) => {
+      setAiProgress(progress);
+      if (progress.status === 'ready') {
+        setIsAIReady(true);
+      }
+    });
+
+    checkCachedModels();
+
+    return () => {
+      if (llmEngineRef.current) {
+        llmEngineRef.current.unload();
+      }
+    };
+  }, []);
+
+  // 데이터 저장
+  useEffect(() => {
+    const dataToSave = {
+      coins,
+      heezzangCustomization,
+      unlockedContents: contents.filter(c => c.unlocked).map(c => c.id)
+    };
+    localStorage.setItem('codingNiaoData', JSON.stringify(dataToSave));
+  }, [coins, heezzangCustomization, contents]);
+
+  const checkCachedModels = async () => {
+    if (!llmEngineRef.current) return;
+
+    const recommendedModel = 'Gemma-3-270M-Instruct-q4f16_1-MLC';
+    const hasCache = await llmEngineRef.current.checkModelInCache(recommendedModel);
+
+    if (hasCache) {
+      await llmEngineRef.current.initialize(recommendedModel);
+    } else {
+      setShowModelSelector(true);
+    }
+  };
+
+  const handleModelSelect = async (modelId) => {
+    if (modelId === null) {
+      setShowModelSelector(false);
+      return;
+    }
+
+    setShowModelSelector(false);
+    if (llmEngineRef.current) {
+      await llmEngineRef.current.initialize(modelId);
+    }
+  };
+
+  const handleEarnCoins = (amount) => {
+    setCoins(prev => prev + amount);
+  };
+
+  const handlePurchaseItem = (itemId, category, price) => {
+    if (coins >= price) {
+      setCoins(prev => prev - price);
+
+      const newCustomization = { ...heezzangCustomization };
+
+      if (category === 'head' || category === 'accessory') {
+        const itemIndex = newCustomization.ownedItems.accessories.findIndex(i => i.id === itemId);
+        if (itemIndex !== -1) {
+          newCustomization.ownedItems.accessories[itemIndex].unlocked = true;
+        }
+      } else if (category === 'background') {
+        const itemIndex = newCustomization.ownedItems.backgrounds.findIndex(i => i.id === itemId);
+        if (itemIndex !== -1) {
+          newCustomization.ownedItems.backgrounds[itemIndex].unlocked = true;
+        }
+      }
+
+      setHeezzangCustomization(newCustomization);
+    }
+  };
+
+  const handleEquipItem = (itemId, category) => {
+    const newCustomization = { ...heezzangCustomization };
+
+    if (category === 'head') {
+      const item = heezzangCustomization.ownedItems.accessories.find(i => i.id === itemId);
+      newCustomization.currentHead = item?.icon || '😺';
+    } else if (category === 'accessory') {
+      const item = heezzangCustomization.ownedItems.accessories.find(i => i.id === itemId);
+      newCustomization.currentAccessory = item?.icon || null;
+    } else if (category === 'background') {
+      const item = heezzangCustomization.ownedItems.backgrounds.find(i => i.id === itemId);
+      newCustomization.currentBackground = item?.emoji || '🏡';
+    }
+
+    setHeezzangCustomization(newCustomization);
+  };
+
+  const renderContent = () => {
+    switch (currentContent) {
+      case 'main-menu':
+        return (
+          <MainMenu
+            contents={contents}
+            onSelectContent={setCurrentContent}
+            coins={coins}
+            heezzangCustomization={heezzangCustomization}
+          />
+        );
+
+      case 'block-coding':
+        return (
+          <BlockCodingGame
+            llmEngine={llmEngineRef.current}
+            isAIReady={isAIReady}
+            onEarnCoins={handleEarnCoins}
+            onBack={() => setCurrentContent('main-menu')}
+          />
+        );
+
+      case 'heezzang-dress':
+        return (
+          <HeezzangCustomizer
+            customization={heezzangCustomization.ownedItems}
+            coins={coins}
+            currentCustomization={heezzangCustomization}
+            onPurchase={handlePurchaseItem}
+            onEquip={handleEquipItem}
+            onBack={() => setCurrentContent('main-menu')}
+          />
+        );
+
+      case 'heezzang-adventure':
+      case 'dungeon-puzzle':
+      case 'room-decoration':
+      case 'action-puzzle':
+      case 'fishing-game':
+      case 'farm-game':
+      case 'racing-game':
+        return (
+          <div className="min-h-screen bg-base-100 flex items-center justify-center">
+            <div className="card bg-base-100 shadow-xl">
+              <div className="card-body items-center text-center">
+                <h2 className="card-title text-3xl mb-4">🚧 준비 중입니다</h2>
+                <p className="mb-4">이 콘텐츠는 곧 추가될 예정입니다!</p>
+                <button className="btn btn-primary" onClick={() => setCurrentContent('main-menu')}>
+                  메인 메뉴로
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return <MainMenu contents={contents} onSelectContent={setCurrentContent} />;
+    }
+  };
+
+  return (
+    <>
+      {showModelSelector && (
+        <ModelSelector
+          onSelectModel={handleModelSelect}
+          loadingProgress={aiProgress.status === 'loading' ? aiProgress : null}
+        />
+      )}
+      {renderContent()}
+    </>
+  );
+}
+
+export default App;

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "move",
+    "type": "move",
+    "action": "move-forward",
+    "direction": null,
+    "icon": "⬆️",
+    "label": "앞으로",
+    "color": "primary",
+    "category": "movement"
+  },
+  {
+    "id": "turn-left",
+    "type": "turn",
+    "action": "turn",
+    "direction": "left",
+    "icon": "↪️",
+    "label": "왼쪽 회전",
+    "color": "secondary",
+    "category": "movement"
+  },
+  {
+    "id": "turn-right",
+    "type": "turn",
+    "action": "turn",
+    "direction": "right",
+    "icon": "↩️",
+    "label": "오른쪽 회전",
+    "color": "secondary",
+    "category": "movement"
+  },
+  {
+    "id": "loop",
+    "type": "loop",
+    "action": "repeat",
+    "direction": null,
+    "icon": "🔁",
+    "label": "2번 반복",
+    "color": "accent",
+    "category": "control",
+    "loopCount": 2
+  },
+  {
+    "id": "loop-3",
+    "type": "loop",
+    "action": "repeat",
+    "direction": null,
+    "icon": "🔁",
+    "label": "3번 반복",
+    "color": "accent",
+    "category": "control",
+    "loopCount": 3
+  }
+]

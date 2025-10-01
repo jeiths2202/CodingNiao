@@ -1,0 +1,44 @@
+[
+  {
+    "id": "first-win",
+    "name": "첫 성공",
+    "description": "첫 레벨을 클리어했어요",
+    "icon": "🎯",
+    "condition": "completedLevels >= 1"
+  },
+  {
+    "id": "five-levels",
+    "name": "레벨 5 클리어",
+    "description": "5개 레벨을 완료했어요",
+    "icon": "⭐",
+    "condition": "completedLevels >= 5"
+  },
+  {
+    "id": "xp-100",
+    "name": "XP 100 달성",
+    "description": "경험치 100을 모았어요",
+    "icon": "💯",
+    "condition": "xp >= 100"
+  },
+  {
+    "id": "xp-500",
+    "name": "XP 500 달성",
+    "description": "경험치 500을 모았어요",
+    "icon": "🏆",
+    "condition": "xp >= 500"
+  },
+  {
+    "id": "perfect-run",
+    "name": "완벽한 실행",
+    "description": "한 번에 레벨을 클리어했어요",
+    "icon": "✨",
+    "condition": "attemptCount === 1"
+  },
+  {
+    "id": "loop-master",
+    "name": "반복의 달인",
+    "description": "반복 블록을 사용해서 클리어했어요",
+    "icon": "🔁",
+    "condition": "usedLoop === true"
+  }
+]

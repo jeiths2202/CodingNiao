@@ -1,0 +1,97 @@
+{
+  "accessories": [
+    {
+      "id": "normal",
+      "name": "기본",
+      "category": "head",
+      "icon": "😺",
+      "price": 0,
+      "unlocked": true
+    },
+    {
+      "id": "crown",
+      "name": "왕관",
+      "category": "head",
+      "icon": "👑",
+      "price": 100,
+      "unlocked": false
+    },
+    {
+      "id": "witch-hat",
+      "name": "마녀 모자",
+      "category": "head",
+      "icon": "🎩",
+      "price": 150,
+      "unlocked": false
+    },
+    {
+      "id": "santa-hat",
+      "name": "산타 모자",
+      "category": "head",
+      "icon": "🎅",
+      "price": 200,
+      "unlocked": false
+    },
+    {
+      "id": "bow",
+      "name": "리본",
+      "category": "accessory",
+      "icon": "🎀",
+      "price": 80,
+      "unlocked": false
+    },
+    {
+      "id": "sunglasses",
+      "name": "선글라스",
+      "category": "accessory",
+      "icon": "🕶️",
+      "price": 120,
+      "unlocked": false
+    },
+    {
+      "id": "scarf",
+      "name": "목도리",
+      "category": "accessory",
+      "icon": "🧣",
+      "price": 90,
+      "unlocked": false
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "default",
+      "name": "기본 배경",
+      "emoji": "🏡",
+      "price": 0,
+      "unlocked": true
+    },
+    {
+      "id": "garden",
+      "name": "정원",
+      "emoji": "🌸",
+      "price": 150,
+      "unlocked": false
+    },
+    {
+      "id": "castle",
+      "name": "성",
+      "emoji": "🏰",
+      "price": 250,
+      "unlocked": false
+    },
+    {
+      "id": "beach",
+      "name": "해변",
+      "emoji": "🏖️",
+      "price": 200,
+      "unlocked": false
+    },
+    {
+      "id": "space",
+      "name": "우주",
+      "emoji": "🌌",
+      "price": 300,
+      "unlocked": false
+    }
+  ]
+}

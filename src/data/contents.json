@@ -1,0 +1,83 @@
+[
+  {
+    "id": "block-coding",
+    "title": "블록 코딩 모험",
+    "icon": "🧩",
+    "description": "희짱을 목표 지점까지 이동시켜보세요",
+    "color": "primary",
+    "difficulty": "초급",
+    "unlocked": true
+  },
+  {
+    "id": "heezzang-adventure",
+    "title": "희짱 어드벤처",
+    "icon": "🗺️",
+    "description": "희짱과 함께 세계를 탐험하며 코딩을 배워요",
+    "color": "secondary",
+    "difficulty": "초급",
+    "unlocked": true
+  },
+  {
+    "id": "dungeon-puzzle",
+    "title": "던전 퍼즐",
+    "icon": "🏰",
+    "description": "코딩으로 몬스터를 피하고 보물을 찾아요",
+    "color": "accent",
+    "difficulty": "중급",
+    "unlocked": false
+  },
+  {
+    "id": "heezzang-dress",
+    "title": "희짱 꾸미기",
+    "icon": "👗",
+    "description": "코인으로 희짱을 멋지게 꾸며주세요",
+    "color": "success",
+    "difficulty": "입문",
+    "unlocked": true
+  },
+  {
+    "id": "room-decoration",
+    "title": "방 꾸미기",
+    "icon": "🏠",
+    "description": "코딩으로 나만의 고양이 방을 만들어요",
+    "color": "warning",
+    "difficulty": "중급",
+    "unlocked": false
+  },
+  {
+    "id": "action-puzzle",
+    "title": "액션 퍼즐",
+    "icon": "🎯",
+    "description": "점프와 회전으로 장애물을 통과해요",
+    "color": "error",
+    "difficulty": "중급",
+    "unlocked": false
+  },
+  {
+    "id": "fishing-game",
+    "title": "코딩 낚시",
+    "icon": "🎣",
+    "description": "반복문으로 물고기를 잡아요",
+    "color": "info",
+    "difficulty": "초급",
+    "unlocked": true
+  },
+  {
+    "id": "farm-game",
+    "title": "코딩 농장",
+    "icon": "🌾",
+    "description": "조건문으로 농장을 자동화해요",
+    "color": "success",
+    "difficulty": "중급",
+    "unlocked": false
+  },
+  {
+    "id": "racing-game",
+    "title": "코딩 레이싱",
+    "icon": "🏁",
+    "description": "변수로 속도를 조절해 경주해요",
+    "color": "warning",
+    "difficulty": "중급",
+    "unlocked": false
+  }
+]
