@@ -5,6 +5,8 @@ import './index.css';
 import MainMenu from './components/MainMenu';
 import BlockCodingGame from './components/BlockCodingGame';
 import HeezzangCustomizer from './components/HeezzangCustomizer';
+import HeezzangAdventure from './components/HeezzangAdventure';
+import ChuruEvent from './components/ChuruEvent';
 import ModelSelector from './components/ModelSelector';
 
 // Engines
@@ -19,6 +21,7 @@ function App() {
   const [isAIReady, setIsAIReady] = useState(false);
   const [aiProgress, setAiProgress] = useState({ status: 'idle', message: '', progress: 0 });
   const [showModelSelector, setShowModelSelector] = useState(false);
+  const [showChuruEvent, setShowChuruEvent] = useState(false);
 
   // 게임 상태
   const [coins, setCoins] = useState(0);
@@ -155,6 +158,7 @@ function App() {
             onSelectContent={setCurrentContent}
             coins={coins}
             heezzangCustomization={heezzangCustomization}
+            onOpenEvent={() => setShowChuruEvent(true)}
           />
         );
 
@@ -181,6 +185,13 @@ function App() {
         );
 
       case 'heezzang-adventure':
+        return (
+          <HeezzangAdventure
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
       case 'dungeon-puzzle':
       case 'room-decoration':
       case 'action-puzzle':
@@ -212,6 +223,12 @@ function App() {
         <ModelSelector
           onSelectModel={handleModelSelect}
           loadingProgress={aiProgress.status === 'loading' ? aiProgress : null}
+        />
+      )}
+      {showChuruEvent && (
+        <ChuruEvent
+          onClaim={handleEarnCoins}
+          onClose={() => setShowChuruEvent(false)}
         />
       )}
       {renderContent()}

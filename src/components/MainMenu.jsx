@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization }) => {
+const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization, onOpenEvent }) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-100 to-pink-100 p-4">
       <div className="max-w-7xl mx-auto">
@@ -22,6 +22,14 @@ const MainMenu = ({ contents, onSelectContent, coins, heezzangCustomization }) =
               <span>희짱</span>
             </div>
           </div>
+
+          {/* 이벤트 버튼 */}
+          <button
+            className="btn btn-success btn-lg mt-4 gap-2 animate-pulse"
+            onClick={onOpenEvent}
+          >
+            🎉 오픈 이벤트: 희짱에게 츄르 주기!
+          </button>
         </header>
 
         {/* 희짱 캐릭터 디스플레이 */}
