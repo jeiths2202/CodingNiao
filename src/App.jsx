@@ -8,6 +8,10 @@ import HeezzangCustomizer from './components/HeezzangCustomizer';
 import HeezzangAdventure from './components/HeezzangAdventure';
 import ChuruEvent from './components/ChuruEvent';
 import ModelSelector from './components/ModelSelector';
+import DungeonPuzzle from './components/DungeonPuzzle';
+import ActionPuzzle from './components/ActionPuzzle';
+import FishingGame from './components/FishingGame';
+import RacingGame from './components/RacingGame';
 
 // Engines
 import LLMEngine from './engine/LLMEngine';
@@ -193,11 +197,39 @@ function App() {
         );
 
       case 'dungeon-puzzle':
-      case 'room-decoration':
+        return (
+          <DungeonPuzzle
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
       case 'action-puzzle':
+        return (
+          <ActionPuzzle
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
       case 'fishing-game':
-      case 'farm-game':
+        return (
+          <FishingGame
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
       case 'racing-game':
+        return (
+          <RacingGame
+            onBack={() => setCurrentContent('main-menu')}
+            onEarnCoins={handleEarnCoins}
+          />
+        );
+
+      case 'room-decoration':
+      case 'farm-game':
         return (
           <div className="min-h-screen bg-base-100 flex items-center justify-center">
             <div className="card bg-base-100 shadow-xl">

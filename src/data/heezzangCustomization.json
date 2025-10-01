@@ -55,6 +55,38 @@
       "icon": "🧣",
       "price": 90,
       "unlocked": false
+    },
+    {
+      "id": "party-hat",
+      "name": "파티 모자",
+      "category": "head",
+      "icon": "🎉",
+      "price": 180,
+      "unlocked": false
+    },
+    {
+      "id": "chef-hat",
+      "name": "셰프 모자",
+      "category": "head",
+      "icon": "👨‍🍳",
+      "price": 160,
+      "unlocked": false
+    },
+    {
+      "id": "heart",
+      "name": "하트",
+      "category": "accessory",
+      "icon": "💖",
+      "price": 70,
+      "unlocked": false
+    },
+    {
+      "id": "star",
+      "name": "별",
+      "category": "accessory",
+      "icon": "⭐",
+      "price": 100,
+      "unlocked": false
     }
   ],
   "backgrounds": [
@@ -91,6 +123,20 @@
       "name": "우주",
       "emoji": "🌌",
       "price": 300,
+      "unlocked": false
+    },
+    {
+      "id": "forest",
+      "name": "숲",
+      "emoji": "🌲",
+      "price": 180,
+      "unlocked": false
+    },
+    {
+      "id": "city",
+      "name": "도시",
+      "emoji": "🌆",
+      "price": 220,
       "unlocked": false
     }
   ]

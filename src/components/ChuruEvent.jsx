@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 const ChuruEvent = ({ onClaim, onClose }) => {
-  const [claimed, setClaimed] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    // 이미 츄르를 받았는지 확인
-    const hasClaimedChuru = localStorage.getItem('churuEventClaimed');
-    if (hasClaimedChuru === 'true') {
-      setClaimed(true);
-    }
-  }, []);
-
   const handleClaim = () => {
-    if (claimed) return;
-
-    setClaimed(true);
     setShowConfetti(true);
-    localStorage.setItem('churuEventClaimed', 'true');
 
     // 코인 지급
     onClaim(100);
@@ -70,29 +57,12 @@ const ChuruEvent = ({ onClaim, onClose }) => {
           </div>
 
           {/* 츄르 주기 버튼 */}
-          {!claimed ? (
-            <button
-              className="btn btn-primary btn-lg w-full text-xl"
-              onClick={handleClaim}
-            >
-              🍖 츄르 주기 (코인 100개 받기)
-            </button>
-          ) : (
-            <div className="space-y-4">
-              <div className="alert alert-success">
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>츄르를 이미 주셨어요! 코인 100개를 받으셨습니다 🎁</span>
-              </div>
-              <button
-                className="btn btn-outline w-full"
-                onClick={onClose}
-              >
-                닫기
-              </button>
-            </div>
-          )}
+          <button
+            className="btn btn-primary btn-lg w-full text-xl"
+            onClick={handleClaim}
+          >
+            🍖 츄르 주기 (코인 100개 받기)
+          </button>
 
           {/* 축하 효과 */}
           {showConfetti && (
